@@ -23,7 +23,7 @@ void        c64mm_destroy(c64mm_t *mm)
             {
                 dev->destroy(dev);
             } else {
-                warning("WARNING: c64mm_destroy: no destroy function for device %s\n", dev->name);
+                warning("c64mm_destroy: no destroy function for device %s\n", dev->name);
                 if (dev->data != NULL)
                     free(dev->data);
                 free(dev);
@@ -76,6 +76,6 @@ c64mmr_t    *c64mm_findRegion(c64mm_t *mm, uint64_t address)
             return mm->regions[i];
         }
     }
-    warning("WARNING: c64mm_findRegion: no region found for address %x\n", address);
+    warning("c64mm_findRegion: no region found for address %x\n", address);
     return NULL;
 }
