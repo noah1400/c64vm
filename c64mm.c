@@ -1,6 +1,6 @@
 #include <c64mm.h>
 
-c64mm_t     *c64mm_create()
+c64mm_t *c64mm_create()
 {
     c64mm_t *c64mm = (c64mm_t *)malloc(sizeof(c64mm_t));
     if (c64mm == NULL)
@@ -20,7 +20,7 @@ void c64mm_setCPU(c64mm_t *mm, c64cpu_t *cpu)
     }
 }
 
-void        c64mm_destroy(c64mm_t *mm)
+void c64mm_destroy(c64mm_t *mm)
 {
     for (int i = 0; i < mm->count; i++)
     {
@@ -30,7 +30,9 @@ void        c64mm_destroy(c64mm_t *mm)
             if (dev->destroy != NULL)
             {
                 dev->destroy(dev);
-            } else {
+            }
+            else
+            {
                 warning("c64mm_destroy: no destroy function for device %s\n", dev->name);
                 if (dev->data != NULL)
                     free(dev->data);
@@ -43,7 +45,7 @@ void        c64mm_destroy(c64mm_t *mm)
     free(mm);
 }
 
-void        c64mm_map(c64mm_t *mm, c64dev_t *device, uint64_t start, uint64_t end, char remap)
+void c64mm_map(c64mm_t *mm, c64dev_t *device, uint64_t start, uint64_t end, char remap)
 {
     c64mmr_t *region = (c64mmr_t *)malloc(sizeof(c64mmr_t));
     if (region == NULL)
@@ -75,7 +77,7 @@ void        c64mm_map(c64mm_t *mm, c64dev_t *device, uint64_t start, uint64_t en
     mm->count++;
 }
 
-c64mmr_t    *c64mm_findRegion(c64mm_t *mm, uint64_t address)
+c64mmr_t *c64mm_findRegion(c64mm_t *mm, uint64_t address)
 {
     for (int i = 0; i < mm->count; i++)
     {
@@ -88,7 +90,7 @@ c64mmr_t    *c64mm_findRegion(c64mm_t *mm, uint64_t address)
     return NULL;
 }
 
-uint64_t    c64mm_getUint64(c64mm_t *mm, uint64_t address)
+uint64_t c64mm_getUint64(c64mm_t *mm, uint64_t address)
 {
     c64mmr_t *region = c64mm_findRegion(mm, address);
     if (region == NULL)
@@ -99,7 +101,7 @@ uint64_t    c64mm_getUint64(c64mm_t *mm, uint64_t address)
     return region->device->getUint64(region->device, finalAddress);
 }
 
-uint32_t    c64mm_getUint32(c64mm_t *mm, uint64_t address)
+uint32_t c64mm_getUint32(c64mm_t *mm, uint64_t address)
 {
     c64mmr_t *region = c64mm_findRegion(mm, address);
     if (region == NULL)
@@ -110,7 +112,7 @@ uint32_t    c64mm_getUint32(c64mm_t *mm, uint64_t address)
     return region->device->getUint32(region->device, finalAddress);
 }
 
-uint16_t    c64mm_getUint16(c64mm_t *mm, uint64_t address)
+uint16_t c64mm_getUint16(c64mm_t *mm, uint64_t address)
 {
     c64mmr_t *region = c64mm_findRegion(mm, address);
     if (region == NULL)
@@ -121,7 +123,7 @@ uint16_t    c64mm_getUint16(c64mm_t *mm, uint64_t address)
     return region->device->getUint16(region->device, finalAddress);
 }
 
-uint8_t     c64mm_getUint8(c64mm_t *mm, uint64_t address)
+uint8_t c64mm_getUint8(c64mm_t *mm, uint64_t address)
 {
     c64mmr_t *region = c64mm_findRegion(mm, address);
     if (region == NULL)
@@ -132,7 +134,7 @@ uint8_t     c64mm_getUint8(c64mm_t *mm, uint64_t address)
     return region->device->getUint8(region->device, finalAddress);
 }
 
-void        c64mm_setUint64(c64mm_t *mm, uint64_t address, uint64_t value)
+void c64mm_setUint64(c64mm_t *mm, uint64_t address, uint64_t value)
 {
     c64mmr_t *region = c64mm_findRegion(mm, address);
     if (region == NULL)
@@ -143,7 +145,7 @@ void        c64mm_setUint64(c64mm_t *mm, uint64_t address, uint64_t value)
     region->device->setUint64(region->device, finalAddress, value);
 }
 
-void        c64mm_setUint32(c64mm_t *mm, uint64_t address, uint32_t value)
+void c64mm_setUint32(c64mm_t *mm, uint64_t address, uint32_t value)
 {
     c64mmr_t *region = c64mm_findRegion(mm, address);
     if (region == NULL)
@@ -154,8 +156,7 @@ void        c64mm_setUint32(c64mm_t *mm, uint64_t address, uint32_t value)
     region->device->setUint32(region->device, finalAddress, value);
 }
 
-
-void        c64mm_setUint16(c64mm_t *mm, uint64_t address, uint16_t value)
+void c64mm_setUint16(c64mm_t *mm, uint64_t address, uint16_t value)
 {
     c64mmr_t *region = c64mm_findRegion(mm, address);
     if (region == NULL)
@@ -166,7 +167,7 @@ void        c64mm_setUint16(c64mm_t *mm, uint64_t address, uint16_t value)
     region->device->setUint16(region->device, finalAddress, value);
 }
 
-void        c64mm_setUint8(c64mm_t *mm, uint64_t address, uint8_t value)
+void c64mm_setUint8(c64mm_t *mm, uint64_t address, uint8_t value)
 {
     c64mmr_t *region = c64mm_findRegion(mm, address);
     if (region == NULL)
@@ -177,7 +178,7 @@ void        c64mm_setUint8(c64mm_t *mm, uint64_t address, uint8_t value)
     region->device->setUint8(region->device, finalAddress, value);
 }
 
-void        c16mm_print(c64mm_t *mm)
+void c16mm_print(c64mm_t *mm)
 {
     printf("Memory map:\n");
     for (int i = 0; i < mm->count; i++)
