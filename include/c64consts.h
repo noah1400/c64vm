@@ -1,15 +1,15 @@
 #ifndef _c64consts_h_
 #define _c64consts_h_
 
-#define LOG_NONE  0
-#define LOG_ERROR 1
-#define LOG_WARN  2
-#define LOG_INFO  3
-#define LOG_DEBUG 4
+#define LOG_NONE        0
+#define LOG_ERROR       1
+#define LOG_WARN        2
+#define LOG_INFO        3
+#define LOG_DEBUG       4
 
 #define LOG_LEVEL       LOG_DEBUG // 0 = no logging, 1 = errors, 2 = warnings, 3 = info, 4 = debug
 
-#define REG_COUNT 14
+#define REG_COUNT       14
 
 #define REG_IP          0
 #define REG_ACC         1

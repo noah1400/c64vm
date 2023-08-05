@@ -4,20 +4,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <c64utils.h>
+#include <c64cpu.h>
 
 
 typedef struct DeviceDriver {
     char name[32];
     void *data;
-    // c64cpu_t *cpu;
-    uint64_t (*getUint64)(void *data, uint16_t address);
-    uint32_t (*getUint32)(void *data, uint16_t address);
-    uint16_t (*getUint16)(void *data, uint16_t address);
-    uint8_t (*getUint8)(void *data, uint16_t address);
-    void (*setUint64)(void *data, uint16_t address, uint64_t value);
-    void (*setUint32)(void *data, uint16_t address, uint32_t value);
-    void (*setUint16)(void *data, uint16_t address, uint16_t value);
-    void (*setUint8)(void *data, uint16_t address, uint8_t value);
+    c64cpu_t *cpu;
+    uint64_t (*getUint64)(c64dev_t *device, uint64_t address);
+    uint32_t (*getUint32)(c64dev_t *device, uint64_t address);
+    uint16_t (*getUint16)(c64dev_t *device, uint64_t address);
+    uint8_t (*getUint8)(c64dev_t *device, uint64_t address);
+    void (*setUint64)(c64dev_t *device, uint64_t address, uint64_t value);
+    void (*setUint32)(c64dev_t *device, uint64_t address, uint32_t value);
+    void (*setUint16)(c64dev_t *device, uint64_t address, uint16_t value);
+    void (*setUint8)(c64dev_t *device, uint64_t address, uint8_t value);
 
     void (*destroy)(c64dev_t *device);
 } c64dev_t;
@@ -35,6 +36,7 @@ typedef struct MemoryMap {
 } c64mm_t;
 
 c64mm_t     *c64mm_create();
+void        c64mm_setCPU(c64mm_t *mm, c64cpu_t *cpu);
 void        c64mm_destroy(c64mm_t *mm);
 void        c64mm_map(c64mm_t *mm, c64dev_t *device, uint64_t start, uint64_t end, char remap);
 

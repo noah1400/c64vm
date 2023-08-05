@@ -12,6 +12,14 @@ c64mm_t     *c64mm_create()
     return c64mm;
 }
 
+void c64mm_setCPU(c64mm_t *mm, c64cpu_t *cpu)
+{
+    for (int i = 0; i < mm->count; i++)
+    {
+        mm->regions[i]->device->cpu = cpu;
+    }
+}
+
 void        c64mm_destroy(c64mm_t *mm)
 {
     for (int i = 0; i < mm->count; i++)
@@ -78,4 +86,103 @@ c64mmr_t    *c64mm_findRegion(c64mm_t *mm, uint64_t address)
     }
     warning("c64mm_findRegion: no region found for address %x\n", address);
     return NULL;
+}
+
+uint64_t    c64mm_getUint64(c64mm_t *mm, uint64_t address)
+{
+    c64mmr_t *region = c64mm_findRegion(mm, address);
+    if (region == NULL)
+    {
+        error("c64mm_getUint64: no region found for address %x\n", address);
+    }
+    uint64_t finalAddress = region->remap ? address - region->start : address;
+    return region->device->getUint64(region->device, finalAddress);
+}
+
+uint32_t    c64mm_getUint32(c64mm_t *mm, uint64_t address)
+{
+    c64mmr_t *region = c64mm_findRegion(mm, address);
+    if (region == NULL)
+    {
+        error("c64mm_getUint32: no region found for address %x\n", address);
+    }
+    uint64_t finalAddress = region->remap ? address - region->start : address;
+    return region->device->getUint32(region->device, finalAddress);
+}
+
+uint16_t    c64mm_getUint16(c64mm_t *mm, uint64_t address)
+{
+    c64mmr_t *region = c64mm_findRegion(mm, address);
+    if (region == NULL)
+    {
+        error("c64mm_getUint16: no region found for address %x\n", address);
+    }
+    uint64_t finalAddress = region->remap ? address - region->start : address;
+    return region->device->getUint16(region->device, finalAddress);
+}
+
+uint8_t     c64mm_getUint8(c64mm_t *mm, uint64_t address)
+{
+    c64mmr_t *region = c64mm_findRegion(mm, address);
+    if (region == NULL)
+    {
+        error("c64mm_getUint8: no region found for address %x\n", address);
+    }
+    uint64_t finalAddress = region->remap ? address - region->start : address;
+    return region->device->getUint8(region->device, finalAddress);
+}
+
+void        c64mm_setUint64(c64mm_t *mm, uint64_t address, uint64_t value)
+{
+    c64mmr_t *region = c64mm_findRegion(mm, address);
+    if (region == NULL)
+    {
+        error("c64mm_setUint64: no region found for address %x\n", address);
+    }
+    uint64_t finalAddress = region->remap ? address - region->start : address;
+    region->device->setUint64(region->device, finalAddress, value);
+}
+
+void        c64mm_setUint32(c64mm_t *mm, uint64_t address, uint32_t value)
+{
+    c64mmr_t *region = c64mm_findRegion(mm, address);
+    if (region == NULL)
+    {
+        error("c64mm_setUint32: no region found for address %x\n", address);
+    }
+    uint64_t finalAddress = region->remap ? address - region->start : address;
+    region->device->setUint32(region->device, finalAddress, value);
+}
+
+
+void        c64mm_setUint16(c64mm_t *mm, uint64_t address, uint16_t value)
+{
+    c64mmr_t *region = c64mm_findRegion(mm, address);
+    if (region == NULL)
+    {
+        error("c64mm_setUint16: no region found for address %x\n", address);
+    }
+    uint64_t finalAddress = region->remap ? address - region->start : address;
+    region->device->setUint16(region->device, finalAddress, value);
+}
+
+void        c64mm_setUint8(c64mm_t *mm, uint64_t address, uint8_t value)
+{
+    c64mmr_t *region = c64mm_findRegion(mm, address);
+    if (region == NULL)
+    {
+        error("c64mm_setUint8: no region found for address %x\n", address);
+    }
+    uint64_t finalAddress = region->remap ? address - region->start : address;
+    region->device->setUint8(region->device, finalAddress, value);
+}
+
+void        c16mm_print(c64mm_t *mm)
+{
+    printf("Memory map:\n");
+    for (int i = 0; i < mm->count; i++)
+    {
+        printf("  %08X - %08X: %s\n", mm->regions[i]->start, mm->regions[i]->end, mm->regions[i]->device->name);
+    }
+    printf("\n");
 }
