@@ -10,7 +10,7 @@ c64cpu_t *c64cpu_create(c64mm_t *mm, uint64_t interruptVectorAddress)
 
     cpu->mm = mm;
 
-    cpu->registers = c64mem_createMemory(REG_COUNT * sizeof(uint64_t));
+    cpu->registers = c64cpu_createRegisters(cpu);
 
     cpu->regNames[REG_IP] = "IP";
     cpu->regNames[REG_ACC] = "ACC";
@@ -39,6 +39,11 @@ c64cpu_t *c64cpu_create(c64mm_t *mm, uint64_t interruptVectorAddress)
     return cpu;
 }
 
+c64dev_t *c64cpu_createRegisters(c64cpu_t *cpu)
+{
+    return c64mem_createDevice(REG_COUNT * sizeof(uint64_t), cpu);
+}
+
 size_t _c16cpu_getRegisterIndex(c64cpu_t *cpu, char *regName)
 {
     for (size_t i = 0; i < REG_COUNT; i++)
@@ -62,7 +67,7 @@ uint64_t c64cpu_getRegister(c64cpu_t *cpu, char *regName)
     return c64mem_getUint64(cpu->registers, offset);
 }
 
-void c64cpu_setRegister(c64cpu_t *cpu, char *regName, uint16_t value)
+void c64cpu_setRegister(c64cpu_t *cpu, char *regName, uint64_t value)
 {
     size_t offset = c64cpu_mapRegisterToOffset(cpu, regName);
     c64mem_setUint64(cpu->registers, offset, value);
@@ -105,6 +110,59 @@ void c64cpu_push(c64cpu_t *cpu, uint64_t value)
     uint64_t sp = c64cpu_getRegister(cpu, "SP");
     c64mm_setUint64(cpu->mm, sp, value);
     c64cpu_setRegister(cpu, "SP", sp - sizeof(uint64_t));
+}
+
+void c64cpu_push32(c64cpu_t *cpu, uint32_t value)
+{
+    uint64_t sp = c64cpu_getRegister(cpu, "SP");
+    c64mm_setUint32(cpu->mm, sp, value);
+    c64cpu_setRegister(cpu, "SP", sp - sizeof(uint32_t));
+}
+
+void c64cpu_push16(c64cpu_t *cpu, uint16_t value)
+{
+    uint64_t sp = c64cpu_getRegister(cpu, "SP");
+    c64mm_setUint16(cpu->mm, sp, value);
+    c64cpu_setRegister(cpu, "SP", sp - sizeof(uint16_t));
+}
+
+void c64cpu_push8(c64cpu_t *cpu, uint8_t value)
+{
+    uint64_t sp = c64cpu_getRegister(cpu, "SP");
+    c64mm_setUint8(cpu->mm, sp, value);
+    c64cpu_setRegister(cpu, "SP", sp - sizeof(uint8_t));
+}
+
+uint64_t c64cpu_pop(c64cpu_t *cpu)
+{
+    uint64_t nextSpAddress = c64cpu_getRegister(cpu, "SP") + sizeof(uint64_t);
+    c64cpu_setRegister(cpu, "SP", nextSpAddress);
+    cpu->stackFrameSize -= sizeof(uint64_t);
+    return c64mm_getUint64(cpu->mm, nextSpAddress);
+}
+
+uint32_t c64cpu_pop32(c64cpu_t *cpu)
+{
+    uint64_t nextSpAddress = c64cpu_getRegister(cpu, "SP") + sizeof(uint32_t);
+    c64cpu_setRegister(cpu, "SP", nextSpAddress);
+    cpu->stackFrameSize -= sizeof(uint32_t);
+    return c64mm_getUint32(cpu->mm, nextSpAddress);
+}
+
+uint16_t c64cpu_pop16(c64cpu_t *cpu)
+{
+    uint64_t nextSpAddress = c64cpu_getRegister(cpu, "SP") + sizeof(uint16_t);
+    c64cpu_setRegister(cpu, "SP", nextSpAddress);
+    cpu->stackFrameSize -= sizeof(uint16_t);
+    return c64mm_getUint16(cpu->mm, nextSpAddress);
+}
+
+uint8_t c64cpu_pop8(c64cpu_t *cpu)
+{
+    uint64_t nextSpAddress = c64cpu_getRegister(cpu, "SP") + sizeof(uint8_t);
+    c64cpu_setRegister(cpu, "SP", nextSpAddress);
+    cpu->stackFrameSize -= sizeof(uint8_t);
+    return c64mm_getUint8(cpu->mm, nextSpAddress);
 }
 
 void c64cpu_pushState(c64cpu_t *cpu)
@@ -261,7 +319,7 @@ void c64cpu_attachDebugger(c64cpu_t *cpu, void (*debugger)(c64cpu_t *cpu))
             const int n = atoi(input);
             for (int i = 0; i < n; i++)
             {
-                debug(cpu);
+                debugger(cpu);
             }
             continue;
         }

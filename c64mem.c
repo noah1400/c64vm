@@ -1,6 +1,6 @@
 #include <c64mem.h>
 
-c64dev_t *c64mem_createDevice(size_t size)
+c64dev_t *c64mem_createDevice(size_t size, c64cpu_t *cpu)
 {
     c64dev_t *device = malloc(sizeof(c64dev_t));
     if (device == NULL)
