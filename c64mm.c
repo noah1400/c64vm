@@ -47,6 +47,10 @@ void c64mm_destroy(c64mm_t *mm)
 
 void c64mm_map(c64mm_t *mm, c64dev_t *device, uint64_t start, uint64_t end, char remap)
 {
+    if (start > end)
+    {
+        error("c64mm_map: start address %x is greater than end address %x\n", start, end);
+    }
     c64mmr_t *region = (c64mmr_t *)malloc(sizeof(c64mmr_t));
     if (region == NULL)
     {
