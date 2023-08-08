@@ -75,10 +75,22 @@ void c64cpu_setRegister(c64cpu_t *cpu, char *regName, uint64_t value)
     c64mem_setUint64(cpu->registers, offset, value);
 }
 
+void c64cpu_setFlag(c64cpu_t *cpu, char value, char flag)
+{
+    if (value)
+    {
+        cpu->flags |= flag;
+    }
+    else
+    {
+        cpu->flags &= ~flag;
+    }
+}
+
 uint8_t c64cpu_fetch(c64cpu_t *cpu)
 {
     uint64_t nextInstructionAddress = c64cpu_getRegister(cpu, "IP");
-    uint8_t instruction = c64mm_getUint16(cpu->mm, nextInstructionAddress);
+    uint8_t instruction = c64mm_getUint8(cpu->mm, nextInstructionAddress);
     c64cpu_setRegister(cpu, "IP", nextInstructionAddress + sizeof(uint8_t));
     return instruction;
 }
@@ -256,10 +268,65 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
 {
     switch(opcode)
     {
+        case LDI:
+        {
+            const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+            const uint64_t value = c64cpu_fetch64(cpu);
+            c64mem_setUint64(cpu->registers, regIndex, value);
+            return LDI;
+        }
+        case LDM:
+        {
+            const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
+            const uint64_t value = c64mm_getUint64(cpu->mm, address);
+            c64mem_setUint64(cpu->registers, regIndex, value);
+            return LDM;
+        }
+        case ST:
+        {
+            const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
+            const uint64_t value = c64mem_getUint64(cpu->registers, regIndex);
+            c64mm_setUint64(cpu->mm, address, value);
+            return ST;
+        }
+        case TF:
+        {
+            const size_t regIndexFrom = c64cpu_fetchRegisterIndex(cpu);
+            const size_t regIndexTo = c64cpu_fetchRegisterIndex(cpu);
+            const uint64_t value = c64mem_getUint64(cpu->registers, regIndexFrom);
+            c64mem_setUint64(cpu->registers, regIndexTo, value);
+            return TF;
+        }
+        case ADDI:
+        {
+            const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+            const uint64_t value = c64cpu_fetch64(cpu);
+            const uint64_t currentValue = c64mem_getUint64(cpu->registers, regIndex);
+            const uint64_t newValue = currentValue + value;
 
+            // Flags
+            const char isOverflow = newValue < currentValue;
+            const char isCarry = isOverflow;
+            const char isZero = newValue == 0;
+            const char isNegative = newValue & 0x8000000000000000;
+
+            c64cpu_setFlag(cpu, FLAG_OVERFLOW, isOverflow);
+            c64cpu_setFlag(cpu, FLAG_CARRY, isCarry);
+            c64cpu_setFlag(cpu, FLAG_ZERO, isZero);
+            c64cpu_setFlag(cpu, FLAG_NEGATIVE, isNegative);
+
+            c64mem_setUint64(cpu->registers, regIndex, newValue);
+            return ADDI;
+        }
     }
 
-    
+    c64cpu_debug(cpu);
+    out("IP: 0x%08x", c64cpu_getRegister(cpu, "IP"));
+    c64cpu_viewMemoryAtWithHighlightedByte(cpu, c64cpu_getRegister(cpu, "IP")-8, 16, c64cpu_getRegister(cpu, "IP")-1);
+
+    error("Invalid opcode: 0x%04x", opcode);    
 
     return opcode;
 }

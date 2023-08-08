@@ -33,6 +33,9 @@ size_t _c16cpu_getRegisterIndex(c64cpu_t *cpu, char *regName);
 uint64_t c64cpu_getRegister(c64cpu_t *cpu, char *regName);
 void c64cpu_setRegister(c64cpu_t *cpu, char *regName, uint64_t value);
 
+// Sets or clears a flag
+void c64cpu_setFlag(c64cpu_t *cpu, char value, char flag);
+
 uint8_t c64cpu_fetch(c64cpu_t *cpu);
 uint16_t c64cpu_fetch16(c64cpu_t *cpu);
 uint32_t c64cpu_fetch32(c64cpu_t *cpu);
