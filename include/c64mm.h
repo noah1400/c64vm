@@ -10,6 +10,7 @@ typedef struct DeviceDriver
 {
     char name[32];
     void *data;
+    size_t dataSize;
     c64cpu_t *cpu;
     uint64_t (*getUint64)(c64dev_t *device, uint64_t address);
     uint32_t (*getUint32)(c64dev_t *device, uint64_t address);
@@ -20,6 +21,10 @@ typedef struct DeviceDriver
     void (*setUint16)(c64dev_t *device, uint64_t address, uint16_t value);
     void (*setUint8)(c64dev_t *device, uint64_t address, uint8_t value);
 
+    // The destroy function if defined will be called when the memory map is destroyed.
+    // And needs to call free on the device itself.
+    // If not defined the device will be freed by the memory map.
+    // This is useful if the user wants to add additional behavior on destroy.
     void (*destroy)(c64dev_t *device);
 } c64dev_t;
 
