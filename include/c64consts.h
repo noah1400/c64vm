@@ -1,6 +1,11 @@
 #ifndef _c64consts_h_
 #define _c64consts_h_
 
+#define FLAG_CARRY 0b00000001
+#define FLAG_ZERO 0b00000010
+#define FLAG_NEGATIVE 0b00000100
+#define FLAG_OVERFLOW 0b00001000
+
 #define LOG_NONE 0
 #define LOG_ERROR 1
 #define LOG_WARN 2

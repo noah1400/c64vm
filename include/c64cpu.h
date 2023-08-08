@@ -17,6 +17,7 @@ typedef struct c64cpu
 {
     c64mm_t *mm;
     c64dev_t *registers;
+    char flags;
     char *regNames[REG_COUNT];
     size_t stackFrameSize;
     uint64_t interruptVectorAddress;

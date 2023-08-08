@@ -27,6 +27,8 @@ c64cpu_t *c64cpu_create(c64mm_t *mm, uint64_t interruptVectorAddress)
     cpu->regNames[REG_MB] = "MB";
     cpu->regNames[REG_IM] = "IM";
 
+    cpu->flags = 0;
+
     cpu->interruptVectorAddress = interruptVectorAddress;
     cpu->isInInterruptHandler = 0;
     c64cpu_setRegister(cpu, "IM", 0xffffffff);
