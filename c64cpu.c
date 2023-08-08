@@ -254,7 +254,13 @@ void c64cpu_handleInterrupt(c64cpu_t *cpu, uint16_t value)
 
 uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
 {
-    // Switch on the opcode
+    switch(opcode)
+    {
+
+    }
+
+    
+
     return opcode;
 }
 

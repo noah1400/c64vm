@@ -58,11 +58,29 @@
 #define BGE (uint16_t)0x0076 // BGE addr ( PC = addr ) ( N == V ) ( PC => SP-- )
 #define BLE (uint16_t)0x0077 // BLE addr ( PC = addr ) ( Z || (N != V) ) ( PC => SP-- )
 
+#define JMPR (uint16_t)0x0161 // JMPR r ( PC = r )
+#define JEQR (uint16_t)0x0162 // JEQR r ( PC = r ) ( Z )
+#define JNER (uint16_t)0x0163 // JNER r ( PC = r ) ( !Z )
+#define JGTR (uint16_t)0x0164 // JGTR r ( PC = r ) ( !Z && (N == V) )
+#define JLTR (uint16_t)0x0165 // JLTR r ( PC = r ) ( N != V )
+#define JGER (uint16_t)0x0166 // JGER r ( PC = r ) ( N == V )
+#define JLER (uint16_t)0x0167 // JLER r ( PC = r ) ( Z || (N != V) )
+
+#define BRAR (uint16_t)0x0171 // BRAR r ( PC = r ) ( always ) ( PC => SP-- )
+#define BEQR (uint16_t)0x0172 // BEQR r ( PC = r ) ( Z ) ( PC => SP-- )
+#define BNER (uint16_t)0x0173 // BNER r ( PC = r ) ( !Z ) ( PC => SP-- )
+#define BGTR (uint16_t)0x0174 // BGTR r ( PC = r ) ( !Z && (N == V) ) ( PC => SP-- )
+#define BLTR (uint16_t)0x0175 // BLTR r ( PC = r ) ( N != V ) ( PC => SP-- )
+#define BGER (uint16_t)0x0176 // BGER r ( PC = r ) ( N == V ) ( PC => SP-- )
+#define BLER (uint16_t)0x0177 // BLER r ( PC = r ) ( Z || (N != V) ) ( PC => SP-- )
+
 #define RET (uint16_t)0x0081 // RET ( PC = SP++ )
 
 #define PUSH (uint16_t)0x0091 // PUSH r ( SP-- => *SP = r )
 #define POP (uint16_t)0x0092 // POP r ( *SP => r => SP++ )
 
+// Call instructions are saving unlike branch and jump registers to stack
+// Experimental
 #define CALL (uint16_t)0x00A1 // CALL addr ( PC => SP-- => *SP = PC => PC = addr )
 #define CALLR (uint16_t)0x00A2 // CALLR r ( PC => SP-- => *SP = PC => PC = r )
 
@@ -74,6 +92,9 @@
 #define SEN (uint16_t)0x00B6 // SEN ( N = 1 )
 #define CLV (uint16_t)0x00B7 // CLV ( V = 0 )
 #define SEV (uint16_t)0x00B8 // SEV ( V = 1 )
+
+#define _INT (uint16_t)0x00C1 // INT imm ( interrupt )
+#define RTI (uint16_t)0x00C2 // RTI ( return from interrupt )
 
 #define NOP (uint16_t)0x0000 // NOP ( no operation )
 #define HLT (uint16_t)0xFFFF // HLT ( halt )
