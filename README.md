@@ -3,4 +3,10 @@
 
  This is a upgraded version of [c16vm](https://github.com/noah1400/c16vm)
 
+## Build
+
+```
+gcc -o c64vm c64mem.c c64cpu.c c64mm.c c64util.c c64vm.c c64main.c -Iinclude
+```
+
  **WIP!**
