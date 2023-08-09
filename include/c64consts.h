@@ -41,5 +41,4 @@ typedef struct MemoryMap c64mm_t;
 typedef struct MemoryMapRegion c64mmr_t;
 typedef struct DeviceDriver c64dev_t;
 
-
 #endif // _c64consts_h_

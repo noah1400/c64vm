@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-
 struct c64cpu
 {
     c64mm_t *mm;
@@ -46,7 +45,6 @@ uint64_t c64cpu_pop(c64cpu_t *cpu);
 uint32_t c64cpu_pop32(c64cpu_t *cpu);
 uint16_t c64cpu_pop16(c64cpu_t *cpu);
 uint8_t c64cpu_pop8(c64cpu_t *cpu);
-
 
 void c64cpu_pushState(c64cpu_t *cpu);
 void c64cpu_popState(c64cpu_t *cpu);

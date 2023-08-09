@@ -1,6 +1,5 @@
 #include <c64vm.h>
 
-
 // Just for now
 // will be modified into a more complex interface
 void c64vm_run()

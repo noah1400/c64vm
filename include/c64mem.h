@@ -24,5 +24,4 @@ void c64mem_setUint8(c64dev_t *device, uint64_t address, uint8_t value);
 
 void c64mem_destroy(c64dev_t *device);
 
-
 #endif // _c64mem_h_

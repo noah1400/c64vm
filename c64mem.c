@@ -21,7 +21,7 @@ c64dev_t *c64mem_createDevice(size_t size, c64cpu_t *cpu)
     device->cpu = cpu;
 
     strcpy(device->name, "Memory");
-    
+
     return device;
 }
 
@@ -46,7 +46,7 @@ uint64_t c64mem_getUint64(c64dev_t *device, uint64_t address)
         error("c64mem_getUint64: address out of bounds\n");
     }
     uint64_t res;
-    memcpy(&res, (uint8_t*)(device->data) + address, sizeof(uint64_t));
+    memcpy(&res, (uint8_t *)(device->data) + address, sizeof(uint64_t));
     return res;
 }
 
@@ -58,7 +58,7 @@ uint32_t c64mem_getUint32(c64dev_t *device, uint64_t address)
         error("c64mem_getUint32: address out of bounds\n");
     }
     uint32_t res;
-    memcpy(&res, (uint8_t*)(device->data) + address, sizeof(uint32_t));
+    memcpy(&res, (uint8_t *)(device->data) + address, sizeof(uint32_t));
     return res;
 }
 
@@ -70,7 +70,7 @@ uint16_t c64mem_getUint16(c64dev_t *device, uint64_t address)
         error("c64mem_getUint16: address out of bounds\n");
     }
     uint16_t res;
-    memcpy(&res, (uint8_t*)(device->data) + address, sizeof(uint16_t));
+    memcpy(&res, (uint8_t *)(device->data) + address, sizeof(uint16_t));
     return res;
 }
 
@@ -82,7 +82,7 @@ uint8_t c64mem_getUint8(c64dev_t *device, uint64_t address)
         error("c64mem_getUint8: address out of bounds\n");
     }
     uint8_t res;
-    memcpy(&res, (uint8_t*)(device->data) + address, sizeof(uint8_t));
+    memcpy(&res, (uint8_t *)(device->data) + address, sizeof(uint8_t));
     return res;
 }
 
@@ -93,7 +93,7 @@ void c64mem_setUint64(c64dev_t *device, uint64_t address, uint64_t value)
     {
         error("c64mem_setUint64: address out of bounds\n");
     }
-    memcpy((uint8_t*)(device->data) + address, &value, sizeof(uint64_t));
+    memcpy((uint8_t *)(device->data) + address, &value, sizeof(uint64_t));
 }
 
 void c64mem_setUint32(c64dev_t *device, uint64_t address, uint32_t value)
@@ -103,7 +103,7 @@ void c64mem_setUint32(c64dev_t *device, uint64_t address, uint32_t value)
     {
         error("c64mem_setUint32: address out of bounds\n");
     }
-    memcpy((uint8_t*)(device->data) + address, &value, sizeof(uint32_t));
+    memcpy((uint8_t *)(device->data) + address, &value, sizeof(uint32_t));
 }
 
 void c64mem_setUint16(c64dev_t *device, uint64_t address, uint16_t value)
@@ -113,7 +113,7 @@ void c64mem_setUint16(c64dev_t *device, uint64_t address, uint16_t value)
     {
         error("c64mem_setUint16: address out of bounds\n");
     }
-    memcpy((uint8_t*)(device->data) + address, &value, sizeof(uint16_t));
+    memcpy((uint8_t *)(device->data) + address, &value, sizeof(uint16_t));
 }
 
 void c64mem_setUint8(c64dev_t *device, uint64_t address, uint8_t value)
@@ -123,7 +123,7 @@ void c64mem_setUint8(c64dev_t *device, uint64_t address, uint8_t value)
     {
         error("c64mem_setUint8: address out of bounds\n");
     }
-    memcpy((uint8_t*)(device->data) + address, &value, sizeof(uint8_t));
+    memcpy((uint8_t *)(device->data) + address, &value, sizeof(uint8_t));
 }
 
 void c64mem_destroy(c64dev_t *device)
