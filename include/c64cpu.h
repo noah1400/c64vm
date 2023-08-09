@@ -21,7 +21,6 @@ typedef struct c64cpu
     char *regNames[REG_COUNT];
     size_t stackFrameSize;
     uint64_t interruptVectorAddress;
-    char isInInterruptHandler;
 } c64cpu_t;
 
 c64cpu_t *c64cpu_create(c64mm_t *mm, uint64_t interruptVectorAddress);
@@ -35,6 +34,7 @@ void c64cpu_setRegister(c64cpu_t *cpu, char *regName, uint64_t value);
 
 // Sets or clears a flag
 void c64cpu_setFlag(c64cpu_t *cpu, char value, char flag);
+char c64cpu_getFlag(c64cpu_t *cpu, char flag);
 
 uint8_t c64cpu_fetch(c64cpu_t *cpu);
 uint16_t c64cpu_fetch16(c64cpu_t *cpu);

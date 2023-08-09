@@ -31,6 +31,7 @@
 #define SHLI (uint16_t)0x0035 // SHLI r, imm (r <<= imm) ( C/Z/N )
 #define SHRI (uint16_t)0x0036 // SHRI r, imm (r >>= imm) ( C/Z/N )
 #define RORI (uint16_t)0x0037 // RORI r, imm (r = ror(r, imm)) ( C/Z/N )
+#define ROLI (uint16_t)0x0038 // ROLI r, imm (r = rol(r, imm)) ( C/Z/N )
 
 #define AND (uint16_t)0x0041 // AND r1, r2 (r1 &= r2) ( C/Z/N )
 #define OR (uint16_t)0x0042 // OR r1, r2 (r1 |= r2) ( C/Z/N )
@@ -38,6 +39,8 @@
 #define NOT (uint16_t)0x0044 // NOT r1, r2 (r1 = ~r2) ( C/Z/N )
 #define SHL (uint16_t)0x0045 // SHL r1, r2 (r1 <<= r2) ( C/Z/N )
 #define SHR (uint16_t)0x0046 // SHR r1, r2 (r1 >>= r2) ( C/Z/N )
+#define ROR (uint16_t)0x0047 // ROR r1, r2 (r1 = ror(r1, r2)) ( C/Z/N )
+#define ROL (uint16_t)0x0048 // ROL r1, r2 (r1 = rol(r1, r2)) ( C/Z/N )
 
 #define CMP (uint16_t)0x0051 // CMP r1, r2 ( C/Z/N )
 #define CMPI (uint16_t)0x0052 // CMPI r, imm ( C/Z/N )
@@ -77,12 +80,14 @@
 #define RET (uint16_t)0x0081 // RET ( PC = SP++ )
 
 #define PUSH (uint16_t)0x0091 // PUSH r ( SP-- => *SP = r )
-#define POP (uint16_t)0x0092 // POP r ( *SP => r => SP++ )
+#define PUSHI (uint16_t)0x0092 // PUSHI imm ( SP-- => *SP = imm )
+#define POP (uint16_t)0x0093 // POP r ( *SP => r => SP++ )
 
 // Call instructions are saving unlike branch and jump registers to stack
 // Experimental
 #define CALL (uint16_t)0x00A1 // CALL addr ( PC => SP-- => *SP = PC => PC = addr )
 #define CALLR (uint16_t)0x00A2 // CALLR r ( PC => SP-- => *SP = PC => PC = r )
+#define RTC (uint16_t)0x00A3 // RTC ( PC => SP++ => *SP => PC )
 
 #define CLC (uint16_t)0x00B1 // CLC ( C = 0 )
 #define SEC (uint16_t)0x00B2 // SEC ( C = 1 )
@@ -92,6 +97,8 @@
 #define SEN (uint16_t)0x00B6 // SEN ( N = 1 )
 #define CLV (uint16_t)0x00B7 // CLV ( V = 0 )
 #define SEV (uint16_t)0x00B8 // SEV ( V = 1 )
+#define CLI (uint16_t)0x00B9 // CLI ( I = 0 )
+#define SEI (uint16_t)0x00BA // SEI ( I = 1 )
 
 #define _INT (uint16_t)0x00C1 // INT imm ( interrupt )
 #define RTI (uint16_t)0x00C2 // RTI ( return from interrupt )
