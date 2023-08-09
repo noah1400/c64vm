@@ -75,7 +75,7 @@ void c64cpu_setRegister(c64cpu_t *cpu, char *regName, uint64_t value)
     c64mem_setUint64(cpu->registers, offset, value);
 }
 
-void c64cpu_setFlag(c64cpu_t *cpu, char value, char flag)
+void c64cpu_setFlag(c64cpu_t *cpu, char flag, char value)
 {
     if (value)
     {
