@@ -56,6 +56,7 @@ size_t _c16cpu_getRegisterIndex(c64cpu_t *cpu, char *regName)
         }
     }
     error("c16cpu_getRegisterIndex: unknown register name %s\n", regName);
+    return 0;
 }
 
 uint64_t c64cpu_mapRegisterToOffset(c64cpu_t *cpu, char *regName)
@@ -413,7 +414,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
             const int64_t value = c64cpu_fetch64(cpu);
-            const int64_t currentValue = c64mem_getInt64(cpu->registers, regIndex);
+            const int64_t currentValue = c64mem_getUint64(cpu->registers, regIndex);
             const int64_t newValue = currentValue * value;
 
             // Flags
@@ -427,14 +428,14 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
             c64cpu_setFlag(cpu, FLAG_ZERO, isZero);
             c64cpu_setFlag(cpu, FLAG_NEGATIVE, isNegative);
 
-            c64mem_setInt64(cpu->registers, regIndex, newValue);
+            c64mem_setUint64(cpu->registers, regIndex, newValue);
             return MULIS;
         }
         case DIVIS:
         {
             const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
             const int64_t value = c64cpu_fetch64(cpu);
-            const int64_t currentValue = c64mem_getInt64(cpu->registers, regIndex);
+            const int64_t currentValue = c64mem_getUint64(cpu->registers, regIndex);
             const int64_t newValue = currentValue / value;
 
             // Flags
@@ -448,7 +449,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
             c64cpu_setFlag(cpu, FLAG_ZERO, isZero);
             c64cpu_setFlag(cpu, FLAG_NEGATIVE, isNegative);
 
-            c64mem_setInt64(cpu->registers, regIndex, newValue);
+            c64mem_setUint64(cpu->registers, regIndex, newValue);
             return DIVIS;
         }
         case ADD:
@@ -565,8 +566,8 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const size_t regIndex1 = c64cpu_fetchRegisterIndex(cpu);
             const size_t regIndex2 = c64cpu_fetchRegisterIndex(cpu);
-            const int64_t value1 = c64mem_getInt64(cpu->registers, regIndex1);
-            const int64_t value2 = c64mem_getInt64(cpu->registers, regIndex2);
+            const int64_t value1 = c64mem_getUint64(cpu->registers, regIndex1);
+            const int64_t value2 = c64mem_getUint64(cpu->registers, regIndex2);
             const int64_t newValue = value1 * value2;
 
             // Flags
@@ -580,15 +581,15 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
             c64cpu_setFlag(cpu, FLAG_ZERO, isZero);
             c64cpu_setFlag(cpu, FLAG_NEGATIVE, isNegative);
 
-            c64mem_setInt64(cpu->registers, regIndex1, newValue);
+            c64mem_setUint64(cpu->registers, regIndex1, newValue);
             return MULS;
         }
         case DIVS: // signed
         {
             const size_t regIndex1 = c64cpu_fetchRegisterIndex(cpu);
             const size_t regIndex2 = c64cpu_fetchRegisterIndex(cpu);
-            const int64_t value1 = c64mem_getInt64(cpu->registers, regIndex1);
-            const int64_t value2 = c64mem_getInt64(cpu->registers, regIndex2);
+            const int64_t value1 = c64mem_getUint64(cpu->registers, regIndex1);
+            const int64_t value2 = c64mem_getUint64(cpu->registers, regIndex2);
             const int64_t newValue = value1 / value2;
 
             // Flags
@@ -602,14 +603,14 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
             c64cpu_setFlag(cpu, FLAG_ZERO, isZero);
             c64cpu_setFlag(cpu, FLAG_NEGATIVE, isNegative);
 
-            c64mem_setInt64(cpu->registers, regIndex1, newValue);
+            c64mem_setUint64(cpu->registers, regIndex1, newValue);
             return DIVS;
         }
         case ANDI:
         {
             const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
             const uint64_t value = c64mem_getUint64(cpu->registers, regIndex);
-            const uint64_t imm = c64cpu_fetchUint64(cpu);
+            const uint64_t imm = c64cpu_fetch64(cpu);
             const uint64_t newValue = value & imm;
 
             // Flags
@@ -626,7 +627,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
             const uint64_t value = c64mem_getUint64(cpu->registers, regIndex);
-            const uint64_t imm = c64cpu_fetchUint64(cpu);
+            const uint64_t imm = c64cpu_fetch64(cpu);
             const uint64_t newValue = value | imm;
 
             // Flags
@@ -643,7 +644,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
             const uint64_t value = c64mem_getUint64(cpu->registers, regIndex);
-            const uint64_t imm = c64cpu_fetchUint64(cpu);
+            const uint64_t imm = c64cpu_fetch64(cpu);
             const uint64_t newValue = value ^ imm;
 
             // Flags
@@ -676,7 +677,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
             const uint64_t value = c64mem_getUint64(cpu->registers, regIndex);
-            const uint64_t imm = c64cpu_fetchUint64(cpu);
+            const uint64_t imm = c64cpu_fetch64(cpu);
             const uint64_t newValue = value << imm;
 
             // Flags
@@ -695,7 +696,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
             const uint64_t value = c64mem_getUint64(cpu->registers, regIndex);
-            const uint64_t imm = c64cpu_fetchUint64(cpu);
+            const uint64_t imm = c64cpu_fetch64(cpu);
             const uint64_t newValue = value >> imm;
 
             // Flags
@@ -714,7 +715,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
             const uint64_t value = c64mem_getUint64(cpu->registers, regIndex);
-            const uint64_t imm = c64cpu_fetchUint64(cpu);
+            const uint64_t imm = c64cpu_fetch64(cpu);
             const uint64_t newValue = (value >> imm) | (value << (64 - imm));
 
             // Flags
@@ -733,7 +734,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
             const uint64_t value = c64mem_getUint64(cpu->registers, regIndex);
-            const uint64_t imm = c64cpu_fetchUint64(cpu);
+            const uint64_t imm = c64cpu_fetch64(cpu);
             const uint64_t newValue = (value << imm) | (value >> (64 - imm));
 
             // Flags
@@ -902,7 +903,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
             const uint64_t value1 = c64mem_getUint64(cpu->registers, regIndex);
-            const uint64_t value2 = c64cpu_fetchUint64(cpu);
+            const uint64_t value2 = c64cpu_fetch64(cpu);
             const uint64_t newValue = value1 - value2;
 
             // Flags
@@ -935,13 +936,13 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case JMP:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             c64cpu_setRegister(cpu, "IP", address);
             return JMP;
         }
         case JEQ:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (c64cpu_getFlag(cpu, FLAG_ZERO))
             {
                 c64cpu_setRegister(cpu, "IP", address);
@@ -950,7 +951,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case JNE:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (!c64cpu_getFlag(cpu, FLAG_ZERO))
             {
                 c64cpu_setRegister(cpu, "IP", address);
@@ -959,7 +960,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case JGT:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (!c64cpu_getFlag(cpu, FLAG_ZERO) && !c64cpu_getFlag(cpu, FLAG_NEGATIVE))
             {
                 c64cpu_setRegister(cpu, "IP", address);
@@ -968,7 +969,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case JLT:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (c64cpu_getFlag(cpu, FLAG_NEGATIVE))
             {
                 c64cpu_setRegister(cpu, "IP", address);
@@ -977,7 +978,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case JGE:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (!c64cpu_getFlag(cpu, FLAG_NEGATIVE))
             {
                 c64cpu_setRegister(cpu, "IP", address);
@@ -986,7 +987,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case JLE:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (c64cpu_getFlag(cpu, FLAG_ZERO) || c64cpu_getFlag(cpu, FLAG_NEGATIVE))
             {
                 c64cpu_setRegister(cpu, "IP", address);
@@ -997,13 +998,13 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const uint64_t retAdd = c64cpu_getRegister(cpu, "IP");
             c64cpu_push(cpu, retAdd);
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             c64cpu_setRegister(cpu, "IP", address);
             return BRA;
         }
         case BEQ:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (c64cpu_getFlag(cpu, FLAG_ZERO))
             {
                 const uint64_t retAdd = c64cpu_getRegister(cpu, "IP");
@@ -1014,7 +1015,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case BNE:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (!c64cpu_getFlag(cpu, FLAG_ZERO))
             {
                 const uint64_t retAdd = c64cpu_getRegister(cpu, "IP");
@@ -1025,7 +1026,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case BGT:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (!c64cpu_getFlag(cpu, FLAG_ZERO) && !c64cpu_getFlag(cpu, FLAG_NEGATIVE))
             {
                 const uint64_t retAdd = c64cpu_getRegister(cpu, "IP");
@@ -1036,7 +1037,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case BLT:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (c64cpu_getFlag(cpu, FLAG_NEGATIVE))
             {
                 const uint64_t retAdd = c64cpu_getRegister(cpu, "IP");
@@ -1047,7 +1048,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case BGE:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (!c64cpu_getFlag(cpu, FLAG_NEGATIVE))
             {
                 const uint64_t retAdd = c64cpu_getRegister(cpu, "IP");
@@ -1058,7 +1059,7 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         }
         case BLE:
         {
-            const uint64_t address = c64cpu_fetchUint64(cpu);
+            const uint64_t address = c64cpu_fetch64(cpu);
             if (c64cpu_getFlag(cpu, FLAG_ZERO) || c64cpu_getFlag(cpu, FLAG_NEGATIVE))
             {
                 const uint64_t retAdd = c64cpu_getRegister(cpu, "IP");
@@ -1315,11 +1316,13 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         {
             const uint64_t value = c64cpu_fetch64(cpu);
             c64cpu_handleInterrupt(cpu, value);
+            return _INT;
         }
         case RTI:
         {
             c64cpu_setFlag(cpu, FLAG_INTERRUPT, 0);
             c64cpu_popState(cpu);
+            return RTI;
         }
         case NOP:
         {
@@ -1358,8 +1361,8 @@ void c64cpu_debug(c64cpu_t *cpu)
 
 void c64cpu_viewMemoryAt(c64cpu_t *cpu, uint64_t offset, size_t size)
 {
-    printf("0x%08x: ", offset);
-    for (int i = 0; i < size; i++)
+    printf("0x%08llx: ", offset);
+    for (size_t i = 0; i < size; i++)
     {
         printf("%02x ", c64mm_getUint8(cpu->mm, offset + i));
     }
@@ -1368,8 +1371,8 @@ void c64cpu_viewMemoryAt(c64cpu_t *cpu, uint64_t offset, size_t size)
 
 void c64cpu_viewMemoryAtWithHighlightedByte(c64cpu_t *cpu, uint64_t offset, size_t size, uint64_t highlightedByte)
 {
-    printf("0x%08x: ", offset);
-    for (int i = 0; i < size; i++)
+    printf("0x%08llx: ", offset);
+    for (size_t i = 0; i < size; i++)
     {
         if (offset + i == highlightedByte)
         {
@@ -1381,7 +1384,7 @@ void c64cpu_viewMemoryAtWithHighlightedByte(c64cpu_t *cpu, uint64_t offset, size
             printf("\033[0m");
         }
     }
-    printf("");
+    printf("\n");
 }
 
 // Debug function needs to contain a c64cpu_step call

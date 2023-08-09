@@ -18,6 +18,7 @@ c64dev_t *c64mem_createDevice(size_t size, c64cpu_t *cpu)
     device->destroy = c64mem_destroy;
     device->data = c64mem_createMemory(size);
     device->dataSize = size;
+    device->cpu = cpu;
 
     strcpy(device->name, "Memory");
     

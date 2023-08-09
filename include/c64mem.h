@@ -8,10 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// forward declaration
-typedef struct c64cpu c64cpu_t;
-typedef struct DeviceDriver c64dev_t;
-
 c64dev_t *c64mem_createDevice(size_t size, c64cpu_t *cpu);
 
 void *c64mem_createMemory(size_t size);

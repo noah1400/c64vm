@@ -14,7 +14,7 @@ c64mm_t *c64mm_create()
 
 void c64mm_setCPU(c64mm_t *mm, c64cpu_t *cpu)
 {
-    for (int i = 0; i < mm->count; i++)
+    for (uint64_t i = 0; i < mm->count; i++)
     {
         mm->regions[i]->device->cpu = cpu;
     }
@@ -22,7 +22,7 @@ void c64mm_setCPU(c64mm_t *mm, c64cpu_t *cpu)
 
 void c64mm_destroy(c64mm_t *mm)
 {
-    for (int i = 0; i < mm->count; i++)
+    for (uint64_t i = 0; i < mm->count; i++)
     {
         c64dev_t *dev = mm->regions[i]->device;
         if (dev != NULL)
@@ -62,7 +62,7 @@ void c64mm_map(c64mm_t *mm, c64dev_t *device, uint64_t start, uint64_t end, char
     region->remap = remap;
 
     mm->regions = (c64mmr_t **)realloc(mm->regions, (mm->count + 1) * sizeof(c64mmr_t *));
-    for (int i = 0; i < mm->count; i++)
+    for (uint64_t i = 0; i < mm->count; i++)
     {
         // Check if the new region overlaps with an existing region
         // check if either the start or end of the new region is within the existing region
@@ -83,7 +83,7 @@ void c64mm_map(c64mm_t *mm, c64dev_t *device, uint64_t start, uint64_t end, char
 
 c64mmr_t *c64mm_findRegion(c64mm_t *mm, uint64_t address)
 {
-    for (int i = 0; i < mm->count; i++)
+    for (uint64_t i = 0; i < mm->count; i++)
     {
         if (address >= mm->regions[i]->start && address <= mm->regions[i]->end)
         {
@@ -185,9 +185,9 @@ void c64mm_setUint8(c64mm_t *mm, uint64_t address, uint8_t value)
 void c16mm_print(c64mm_t *mm)
 {
     printf("Memory map:\n");
-    for (int i = 0; i < mm->count; i++)
+    for (uint64_t i = 0; i < mm->count; i++)
     {
-        printf("  %08X - %08X: %s\n", mm->regions[i]->start, mm->regions[i]->end, mm->regions[i]->device->name);
+        printf("  %08llX - %08llX: %s\n", mm->regions[i]->start, mm->regions[i]->end, mm->regions[i]->device->name);
     }
     printf("\n");
 }

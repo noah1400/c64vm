@@ -1,11 +1,11 @@
 #ifndef _c64consts_h_
 #define _c64consts_h_
 
-#define FLAG_CARRY 0b00000001
-#define FLAG_ZERO 0b00000010
-#define FLAG_NEGATIVE 0b00000100
-#define FLAG_OVERFLOW 0b00001000
-#define FLAG_INTERRUPT 0b00010000
+#define FLAG_CARRY 0x01
+#define FLAG_ZERO 0x02
+#define FLAG_NEGATIVE 0x04
+#define FLAG_OVERFLOW 0x08
+#define FLAG_INTERRUPT 0x10
 
 #define LOG_NONE 0
 #define LOG_ERROR 1
@@ -34,5 +34,12 @@
 
 #define MEMORY_SIZE 65536
 #define c64cpu_speed 1000000
+
+// Forward declarations
+typedef struct c64cpu c64cpu_t;
+typedef struct MemoryMap c64mm_t;
+typedef struct MemoryMapRegion c64mmr_t;
+typedef struct DeviceDriver c64dev_t;
+
 
 #endif // _c64consts_h_
