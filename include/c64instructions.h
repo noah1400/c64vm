@@ -4,8 +4,17 @@
 #include <stdint.h>
 
 #define LDI (uint16_t)0x0001 // LDI r, imm (r = imm)
+#define LDBI (uint16_t)0x0101 // LDBI r, imm | 1 byte
+#define LDWI (uint16_t)0x0201 // LDWI r, imm | 2 bytes
+#define LDDI (uint16_t)0x0301 // LDDI r, imm | 4 bytes
 #define LDM (uint16_t)0x0002 // LDM r, addr (r = addr)
+#define LDBM (uint16_t)0x0102 // LDBM r, addr | 1 byte
+#define LDWM (uint16_t)0x0202 // LDWM r, addr | 2 bytes
+#define LDDM (uint16_t)0x0302 // LDDM r, addr | 4 bytes
 #define ST (uint16_t)0x0003  // ST r, addr (r -> addr)
+#define STB (uint16_t)0x0103  // STB r, addr | 1 byte (8 bit)
+#define STW (uint16_t)0x0203  // STW r, addr | 2 bytes (16 bit)
+#define STD (uint16_t)0x0303  // STD r, addr | 4 bytes (32 bit)
 #define TF (uint16_t)0x0004  // TF r1, r2 (r1 = r2)
 
 #define ADDI (uint16_t)0x0011  // ADDI r, imm (r += imm) ( C/Z/N/V )

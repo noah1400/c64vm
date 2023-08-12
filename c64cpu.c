@@ -281,6 +281,27 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         c64mem_setUint64(cpu->registers, regIndex, value);
         return LDI;
     }
+    case LDBI:
+    {
+        const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+        const uint8_t value = c64cpu_fetch(cpu); 
+        c64mem_setUint64(cpu->registers, regIndex, value); // still 64 bit register
+        return LDBI;
+    }
+    case LDWI:
+    {
+        const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+        const uint16_t value = c64cpu_fetch16(cpu);
+        c64mem_setUint64(cpu->registers, regIndex, value); // still 64 bit register
+        return LDWI;
+    }
+    case LDDI: // Load double word immediate 
+    {
+        const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+        const uint32_t value = c64cpu_fetch32(cpu);
+        c64mem_setUint64(cpu->registers, regIndex, value); // still 64 bit register
+        return LDDI;
+    }
     case LDM:
     {
         const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
@@ -289,6 +310,30 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         c64mem_setUint64(cpu->registers, regIndex, value);
         return LDM;
     }
+    case LDBM:
+    {
+        const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+        const uint64_t address = c64cpu_fetch64(cpu);
+        const uint8_t value = c64mm_getUint8(cpu->mm, address);
+        c64mem_setUint64(cpu->registers, regIndex, value);
+        return LDBM;
+    }
+    case LDWM:
+    {
+        const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+        const uint64_t address = c64cpu_fetch64(cpu);
+        const uint16_t value = c64mm_getUint16(cpu->mm, address);
+        c64mem_setUint64(cpu->registers, regIndex, value);
+        return LDWM;
+    }
+    case LDDM: // Load double word from memory
+    {
+        const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+        const uint64_t address = c64cpu_fetch64(cpu);
+        const uint32_t value = c64mm_getUint32(cpu->mm, address);
+        c64mem_setUint64(cpu->registers, regIndex, value);
+        return LDDM;
+    }
     case ST:
     {
         const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
@@ -296,6 +341,33 @@ uint16_t c64cpu_execute(c64cpu_t *cpu, uint16_t opcode)
         const uint64_t value = c64mem_getUint64(cpu->registers, regIndex);
         c64mm_setUint64(cpu->mm, address, value);
         return ST;
+    }
+    case STB:
+    {
+        const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+        const uint64_t address = c64cpu_fetch64(cpu);
+        // Add 7 to the address to get the last byte of the register
+        const uint8_t value = c64mem_getUint8(cpu->registers, regIndex + sizeof(uint32_t) + sizeof(uint16_t) + sizeof(uint8_t));
+        c64mm_setUint8(cpu->mm, address, value);
+        return STB;
+    }
+    case STW:
+    {
+        const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+        const uint64_t address = c64cpu_fetch64(cpu);
+        // Add 6 to the address to get the last 2 bytes of the register
+        const uint16_t value = c64mem_getUint16(cpu->registers, regIndex + sizeof(uint32_t) + sizeof(uint16_t));
+        c64mm_setUint16(cpu->mm, address, value);
+        return STW;
+    }
+    case STD: // Store double word
+    {
+        const size_t regIndex = c64cpu_fetchRegisterIndex(cpu);
+        const uint64_t address = c64cpu_fetch64(cpu);
+        // Add 4 to the address to get the last 4 bytes of the register
+        const uint32_t value = c64mem_getUint32(cpu->registers, regIndex + sizeof(uint32_t));
+        c64mm_setUint32(cpu->mm, address, value);
+        return STD;
     }
     case TF:
     {
