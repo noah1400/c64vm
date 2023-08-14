@@ -1,3 +1,20 @@
+/*
+Copyright (c) 2023 Noah Scholz
+
+This file is part of the c64vm project.
+
+c64vm is free software: you can redistribute it and/or modify
+it under the terms of the MIT License.
+
+c64vm is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the MIT License for more details.
+
+You should have received a copy of the MIT License
+along with c64vm. If not, see <https://mit-license.org/>.
+*/
 #include <c64vm.h>
 
 // Just for now
