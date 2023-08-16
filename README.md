@@ -13,7 +13,7 @@ Welcome to the **c64vm** project! This repository hosts an upgraded version of t
 
 The **c64vm** project aims to create a 64-bit register-based virtual machine. This virtual machine is designed to execute code written in a custom assembly-like language within its simulated environment. As an upgrade to the [c16vm](https://github.com/noah1400/c16vm) project, **c64vm** extends its capabilities by using a 64bit address range.
 
-Please note that this project is currently a work in progress. As such, expect ongoing updates, enhancements, and potentially some rough edges. Contributions, suggestions, and feedback are greatly appreciated as i strive to refine and improve the virtual machine.
+Please note that this project is currently a work in progress. As such, expect ongoing updates, enhancements, and potentially some rough edges.
 
 ## Build
 
