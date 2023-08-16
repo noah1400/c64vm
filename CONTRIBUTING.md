@@ -1,5 +1,3 @@
-Sure, here's a template for a `CONTRIBUTING.md` file that you can include in your repository:
-
 # Contributing to c64vm
 
 Thank you for considering contributing to the **c64vm** project! We appreciate your interest in making this virtual machine even better. By contributing, you can help shape the future of the project, fix issues, and add exciting features.
