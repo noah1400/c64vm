@@ -7,7 +7,6 @@ Welcome to the **c64vm** project! This repository hosts an upgraded version of t
 - [Introduction](#introduction)
 - [Build](#build)
 - [Usage](#usage)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction
@@ -33,10 +32,6 @@ Please keep in mind that this project is a work in progress, and there might be 
 ## Usage
 
 As the project is currently under active development, detailed usage instructions are forthcoming. However, once complete, you can expect a comprehensive guide on how to use the **c64vm** virtual machine, including assembling code, running programs, and interacting with the simulated environment.
-
-## Contributing
-
-Contributions to **c64vm** are more than welcome! Whether you're interested in fixing issues, adding features, or improving documentation, your help is invaluable to the project's growth. Please review our [Contribution Guidelines](CONTRIBUTING.md) to get started.
 
 ## License
 
