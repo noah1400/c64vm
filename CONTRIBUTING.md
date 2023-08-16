@@ -1,12 +1,8 @@
 # Contributing to c64vm
 
-Thank you for considering contributing to the **c64vm** project! We appreciate your interest in making this virtual machine even better. By contributing, you can help shape the future of the project, fix issues, and add exciting features.
+Thank you for considering contributing to the **c64vm** project! I appreciate your interest in making this virtual machine even better. By contributing, you can help shape the future of the project, fix issues, and add exciting features.
 
 Before you start, please take a moment to read the guidelines outlined below. These guidelines will help ensure that your contributions align with the project's goals and maintain a collaborative environment.
-
-## Code of Conduct
-
-Please note that by participating in this project, you are expected to adhere to the [Code of Conduct](CODE_OF_CONDUCT.md). This code outlines the behavior we expect from contributors and ensures a respectful and inclusive environment for everyone.
 
 ## Getting Started
 
@@ -35,8 +31,6 @@ To get started with contributing to **c64vm**, follow these steps:
 - **Coding Standards:** Follow the existing coding standards and style conventions used in the project. Consistency in code style helps maintain readability and cohesion.
 
 - **Documentation:** Include comprehensive documentation for your changes. This could involve adding comments in code, updating the README, or creating new documentation files if necessary.
-
-- **Tests:** If your contribution involves new functionality or fixes, consider adding relevant tests to ensure your code works as intended and doesn't introduce regressions.
 
 - **Review:** Your pull request will undergo review by project maintainers. Be prepared to address feedback and make necessary changes.
 
